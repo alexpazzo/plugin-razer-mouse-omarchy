@@ -330,6 +330,19 @@ Panel {
     onTriggered: if (actionProc.running) actionProc.running = false
   }
 
+  // The mark in front of the device name: the Nerd Font mouse glyph, tinted
+  // like any other panel icon, so the plugin ships no artwork. Swapping in a
+  // logo here (an Image instead of this Text) does not touch the hero.
+  component RazerMark: Text {
+    property real iconSize: Style.font.display
+
+    text: "\u{f037d}"
+    textFormat: Text.PlainText
+    font.family: Style.font.family
+    font.pixelSize: iconSize
+    renderType: Text.NativeRendering
+  }
+
   // ---- view --------------------------------------------------------------
 
   KeyboardPanel {
@@ -339,7 +352,7 @@ Panel {
     bar: root.bar
     open: root.opened
     focusTarget: keyCatcher
-    contentWidth: panel.fittedContentWidth(Style.space(340))
+    contentWidth: panel.fittedContentWidth(Style.space(430))
     // The card must be tall enough for every row it owns: a Column taller than
     // the card does not clip, it paints over the windows behind — that is how
     // the Aggiorna row ended up outside the panel's border.
@@ -359,12 +372,19 @@ Panel {
         spacing: Style.space(10)
 
         PanelHero {
+          id: hero
           width: parent.width
           title: root.deviceName !== "" ? root.deviceName : "Razer"
           meta: root.metaText
           detail: root.detailText
           foreground: root.barForeground
           fontFamily: root.fontFamily
+          iconComponent: Component {
+            RazerMark {
+              iconSize: hero.iconSize
+              color: root.barForeground
+            }
+          }
         }
 
         PanelSectionHeader {

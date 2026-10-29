@@ -30,9 +30,10 @@ omarchy plugin enable alexpazzo.razer-mouse --section right
 
 ## Usage
 
-The bar shows `87%` while discharging and `87%+` while charging; `--` means the
-daemon or the device did not answer. Left click opens the panel, middle click
-forces a fresh reading.
+The bar shows the Razer mark (the Nerd Font mouse glyph) before the reading:
+`87%` while discharging and `87%+` while charging; `--` means the daemon or the
+device did not answer. Left click opens the panel — whose hero repeats the mark
+beside the full device name — and middle click forces a fresh reading.
 
 A sleeping wireless mouse keeps the driver bound but reports zeros for every
 hardware field. The plugin treats that as "unknown" rather than 0 %: the bar

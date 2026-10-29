@@ -37,6 +37,11 @@ BarWidget {
     ? (charging ? batteryLevel + "%+" : batteryLevel + "%")
     : "--"
 
+  // Nerd Font mouse glyph (nf-md-mouse) in front of the reading: the bar slot is
+  // text-only, and the glyph is part of the bar font, so no image or extra
+  // layout is needed. Same mark the panel hero shows.
+  readonly property string barText: "\u{f037d}" + " " + faceText
+
   readonly property string tooltipText: batteryLevel >= 0
     ? (deviceName + " — " + batteryLevel + "%" + (charging ? " (in carica)" : ""))
     : (lastError !== "" ? "Razer: " + lastError : "Razer: in lettura…")
@@ -188,7 +193,7 @@ BarWidget {
     id: button
     anchors.fill: parent
     bar: root.bar
-    text: root.faceText
+    text: root.barText
     tooltipText: root.tooltipText
     onPressed: function(b) {
       if (b === Qt.MiddleButton) root.refresh()
