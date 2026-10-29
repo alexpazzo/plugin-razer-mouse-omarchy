@@ -17,7 +17,7 @@ hidraw or sysfs, so it does not fight the driver for the device.
 ## Install
 
 ```bash
-omarchy plugin add git@github.com:alexpazzo/plugin-razer-mouse-omarchy.git --enable
+omarchy plugin add https://github.com/alexpazzo/plugin-razer-mouse-omarchy.git --enable
 ```
 
 Manual install: clone this repository into `~/.config/omarchy/plugins/alexpazzo.razer-mouse`,
