@@ -340,7 +340,10 @@ Panel {
     open: root.opened
     focusTarget: keyCatcher
     contentWidth: panel.fittedContentWidth(Style.space(340))
-    contentHeight: panel.fittedContentHeight(column.implicitHeight, Style.space(560))
+    // The card must be tall enough for every row it owns: a Column taller than
+    // the card does not clip, it paints over the windows behind — that is how
+    // the Aggiorna row ended up outside the panel's border.
+    contentHeight: panel.fittedContentHeight(column.implicitHeight, Style.space(780))
 
     PanelKeyCatcher {
       id: keyCatcher
