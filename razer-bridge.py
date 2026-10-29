@@ -136,7 +136,29 @@ def status_dict(dev):
         payload[key] = fields[key]
     if warnings:
         payload["warnings"] = warnings
+
+    # A sleeping wireless mouse keeps the driver bound but answers zeros to
+    # every hardware read: DPI (0, 0), battery 0, not charging. Those are gaps,
+    # not values — reporting them would paint "0 %" on the bar and drop the DPI
+    # slider to the floor — so the live fields are reported as unknown and the
+    # caller shows a "move the mouse" state instead.
+    if payload["dpi"] == [0, 0] and payload["battery"] == 0 and payload["charging"] is not True:
+        payload["asleep"] = True
+        payload["battery"] = None
+        payload["dpi"] = None
+        payload["firmware"] = None
+        payload["idleTime"] = None
+        payload["lowBatteryThreshold"] = None
+        payload["warnings"] = (payload.get("warnings") or []) + ["asleep: zeroed hardware report"]
     return payload
+
+
+def is_asleep(dev):
+    """True when the device answers zeros, i.e. the wireless link is idle."""
+    try:
+        return list(dev.dpi) == [0, 0]
+    except Exception:  # noqa: BLE001 - unreadable DPI is not a sleep verdict
+        return False
 
 
 def parse_args(argv):
@@ -237,6 +259,11 @@ def main():
         return
 
     _, key, raw = command
+    # A sleeping mouse accepts writes and silently drops them, so a "set" that
+    # looks successful would be a lie. Refuse instead of pretending.
+    if is_asleep(dev):
+        fail(EXIT_WRITE_FAILED, "write_failed",
+             "mouse asleep: no DPI report, move it to wake")
     try:
         apply(dev, key, raw)
     except Exception as exc:  # noqa: BLE001 - report, never crash the caller

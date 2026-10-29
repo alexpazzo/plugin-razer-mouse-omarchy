@@ -93,6 +93,10 @@ BarWidget {
       failure("nessun mouse")
       return
     }
+    if (device.asleep === true) {
+      failure("mouse in sleep")
+      return
+    }
     deviceCount = devices.length
     deviceName = device.name ? String(device.name) : ""
     batteryLevel = typeof device.battery === "number" ? device.battery : -1

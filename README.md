@@ -34,9 +34,18 @@ The bar shows `87%` while discharging and `87%+` while charging; `--` means the
 daemon or the device did not answer. Left click opens the panel, middle click
 forces a fresh reading.
 
+A sleeping wireless mouse keeps the driver bound but reports zeros for every
+hardware field. The plugin treats that as "unknown" rather than 0 %: the bar
+shows `--`, the panel explains that the mouse is asleep, and writes are refused
+instead of being silently dropped. Move the mouse to wake it and values return
+on the next poll.
+
 In the panel:
 
-- **DPI** — 100 to the mouse's maximum, applied on release
+- **DPI** — logarithmic slider from 100 to the mouse's maximum, with the value
+  updating while you drag and one write per release; the chips (400, 800, 1600,
+  3200, 6400 — filtered by the sensor ceiling) jump straight to the usual
+  stops, and a drag that ends near one snaps onto it
 - **Poll rate** — 125, 500 or 1000 Hz
 - **Idle prima dello sleep** — when the mouse goes to sleep, 60–900 s
 - **Soglia batteria scarica** — 5–25 % (see Limits)

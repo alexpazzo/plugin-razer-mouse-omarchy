@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "alexpazzo.razer-mouse",
   "name": "Razer Pro Click V2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "alexpazzo",
   "license": "MIT",
   "description": "Battery, charging state and mouse settings for Razer mice via OpenRazer.",
